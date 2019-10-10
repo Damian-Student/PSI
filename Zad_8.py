@@ -1,6 +1,6 @@
 # http://tiny.cc/uwm_psi
 
-indeksy = (134524,134123,123543)
+indeksy = (134524,134123,123743)
 studenci = ('Adam', 'Kronicki', 'Michał', 'Mroczkowski', 'Ada', 'Wieluńska')
 
 pierwszy = studenci[:2], indeksy[0]

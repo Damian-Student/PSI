@@ -3,13 +3,8 @@ print(a)
 imie = 'Damian'
 nazwisko = 'Monikowski'
 
-liczbaLiter_1 = 0
-liczbaLiter_2 = 0
+liczbaLiter_1 = a.count(imie[2])
+liczbaLiter_2 = a.count(nazwisko[3])
 
-for i in a:
-    if i == imie[2]:
-        liczbaLiter_1+=1
-    elif i == nazwisko[3]:
-        liczbaLiter_2+=1
 
 print("W tekście jest "+str(liczbaLiter_1)+" liter m oraz "+str(liczbaLiter_2)+" liter i.")

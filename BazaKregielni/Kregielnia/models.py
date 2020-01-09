@@ -11,7 +11,7 @@ class Pracownicy(models.Model):
 
 class Pensje(models.Model):
     Pracownik = models.ForeignKey(Pracownicy, on_delete=models.CASCADE)
-    pensja = models.IntegerField
+    pensja = models.IntegerField()
 
     def __str__(self):
         return self.pensja
@@ -34,9 +34,9 @@ class listaTorow(models.Model):
 class wynajemToru(models.Model):
     nrToru = models.ForeignKey(listaTorow, on_delete=models.CASCADE)
     idKlienta = models.ForeignKey(Klienci, on_delete=models.CASCADE)
-    dataWynajecia = models.DateField
+    dataWynajecia = models.DateField()
     czasWynajecia = models.CharField(max_length=40)
-    cenaWynajmu = models.IntegerField
+    cenaWynajmu = models.IntegerField()
 
     def __str__(self):
         return self.nrToru

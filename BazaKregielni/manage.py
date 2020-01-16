@@ -2,8 +2,6 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
-import django.db.backends.mysql #tu tez cos dodalem ale nie dziala runserver
-
 
 def main():
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'BazaKregielni.settings')

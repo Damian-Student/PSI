@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from .models import *
-import datetime
 
 ###################################### PRACOWNICY ########################################
 class PracownicySerializer(serializers.Serializer):
@@ -96,24 +95,14 @@ class ListaTorowSerializer(serializers.Serializer):
         return instance
 ###################################### WYNAJEM TORU ########################################
 class WynajemToruSerializer(serializers.Serializer):
-    dataWynajecia = serializers.DateField
+    dataWynajecia = serializers.CharField(max_length=100, default="1.01.1970")
     czasWynajecia = serializers.CharField(max_length=40)
     cenaWynajmu = serializers.IntegerField
 # -------------------------- validate ----------------------------
-    def validateDataWynajecia(self, dataWynajecia):
-        if (dataWynajecia < datetime.date.today()):
-            raise serializers.ValidationError(
-                "Data wynajecia toru nie może byc wczesniej niz dzien dziesiejszy!",
-            )
-        elif (dataWynajecia < datetime.date.today() + datetime.timedelta(days=30)): #nie mozna rezerwowac na pozniej niz miesiac od dzis ? jak nie to mozna wywalic
-            raise serializers.ValidationError(
-                "Rezerwacja na zbyt późny termin!",
-            )
-
     def validateCzasWynajecia(self, czasWynajecia):
-        if (czasWynajecia > 2): #nie znalazlem odpowiednij metody na godziny, narazie zostawie tak ze 1 to 1 godzina; tak wiec nie mozna wynajmowac toru na dluzej niz 2h
+        if (czasWynajecia > 4): #nie znalazlem odpowiednij metody na godziny, narazie zostawie tak ze 1 to 1 godzina; tak wiec nie mozna wynajmowac toru na dluzej niz 4h
             raise serializers.ValidationError(
-                "Nie mozna rezerwowac na dluzej niz dwie godziny!",
+                "Nie mozna rezerwowac na dluzej niz cztery godziny!",
             )
         elif (czasWynajecia < 0):
             raise serializers.ValidationError(

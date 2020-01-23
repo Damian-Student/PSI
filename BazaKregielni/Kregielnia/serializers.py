@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import *
+from django.contrib.auth.models import User
 
 ###################################### PRACOWNICY ########################################
 class PracownicySerializer(serializers.Serializer):
@@ -36,6 +37,7 @@ class PracownicySerializer(serializers.Serializer):
         return instance
 ######################################## PENSJE ######################################
 class PensjeSerializer(serializers.Serializer):
+    owner = serializers.ReadOnlyField(source='owner.username')
     pensja = serializers.IntegerField
 
     def validatePensja(self, pensja):
@@ -53,6 +55,7 @@ class PensjeSerializer(serializers.Serializer):
         return instance
 ####################################### KLIENCI #######################################
 class KlienciSerializer(serializers.Serializer):
+    owner = serializers.ReadOnlyField(source='owner.username')
     imie = serializers.CharField(max_length=50)
     nazwisko = serializers.CharField(max_length=50)
 # -------------------------- validate ----------------------------
@@ -125,3 +128,11 @@ class WynajemToruSerializer(serializers.Serializer):
         instance.save()
         return instance
 ##############################################################################
+
+
+class UserSerializer(serializers.ModelSerializer):
+    Pensje = serializers.PrimaryKeyRelatedField(many=True, queryset=Pensje.objects.all())
+    Klienci = serializers.PrimaryKeyRelatedField(many=True, queryset=Klienci.objects.all())
+    class Meta:
+        model = User
+        fields = ['id','username', 'Pensje', 'Klienci']

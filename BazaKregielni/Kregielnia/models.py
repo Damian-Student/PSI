@@ -1,4 +1,7 @@
 from django.db import models
+from pygments.lexers import get_lexer_by_name
+from pygments.formatters.html import HtmlFormatter
+from pygments import highlight
 
 class Pracownicy(models.Model):
     idPracownika = models.AutoField(primary_key=True)
@@ -12,6 +15,7 @@ class Pracownicy(models.Model):
 class Pensje(models.Model):
     Pracownik = models.ForeignKey(Pracownicy, on_delete=models.CASCADE)
     pensja = models.IntegerField(default=1600)
+    owner = models.ForeignKey('auth.User', related_name='Pensje', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.pensja
@@ -20,6 +24,7 @@ class Klienci(models.Model):
     idKlienta = models.AutoField(primary_key=True)
     imie = models.CharField(max_length=50)
     nazwisko = models.CharField(max_length=50)
+    owner = models.ForeignKey('auth.User', related_name='Klienci', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.nazwisko

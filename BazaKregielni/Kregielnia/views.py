@@ -20,6 +20,10 @@ from .serializers import ListaTorowSerializer
 
 from .models import Pensje
 from .serializers import PensjeSerializer
+
+from django.contrib.auth.models import User
+from .serializers import UserSerializer
+
 ##################################### PRACOWNICY #####################################
 class PracownicyList(APIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
@@ -65,11 +69,14 @@ class PracownicyDetail(APIView):
 
 ##################################### KLIENCI #####################################
 class KlienciList(APIView):
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly,
+                          permissions.DjangoModelPermissionsOrAnonReadOnly]
+    queryset = Klienci.objects.all()
+    serializer_class = KlienciSerializer
+
 
     def get(self, request, format=None):
-        klienci = Klienci.objects.all()
-        serializer = KlienciSerializer(klienci, many=True)
+        serializer = KlienciSerializer
         return Response(serializer.data)
 
     def post(self, request, format=None):
@@ -234,3 +241,11 @@ class PensjeDetail(APIView):
         pensja=self.get_object(pk)
         pensja.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+class UserList(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+class UserDetail(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
